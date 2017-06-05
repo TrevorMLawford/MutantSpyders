@@ -5,7 +5,7 @@ WINDOW_WIDTH=640			#size of window
 WINDOW_HEIGHT=480
 FPS=50						#Frames per sec (60)
 
-TARGET="PC"					# PI or PC
+TARGET="PI"					# PI or PC
 
 BASE_FIRE_COUNT=16			#Number of individual ship firing at any one time.
 
