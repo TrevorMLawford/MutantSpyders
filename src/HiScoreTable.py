@@ -1,4 +1,4 @@
-import os, json
+import os, json, random
 from pygame.locals import *
 from constants import *
 from Level import Level
@@ -22,6 +22,8 @@ class HiScoreTable:
 		titleFont = pygame.font.SysFont("", 40, True, False)	# Bold
 		titleFont.set_underline(True)
 		italicTextFont = pygame.font.SysFont("", 30, False, True)	# Italic
+		
+		print "Sw="+str(Level.AI_SPIDER_WEIGHT)+",Bw="+str(Level.AI_BOMB_WEIGHT)+"="+str(Level.Score)
 
 		if Level.Score>0 and self.isNewHiScore(lives, Level.Score):
 		

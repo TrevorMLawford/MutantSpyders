@@ -10,6 +10,8 @@ from utils.Collision import collision
 class Level:
 
 	Score=0
+	AI_SPIDER_WEIGHT=0
+	AI_BOMB_WEIGHT=0
 
 	# lives: For display
 	# totalSpiders: Total number of Spiders appearing 
@@ -32,6 +34,8 @@ class Level:
 		self.reloadTime=reloadTime
 		self.godMode=godMode
 		self.autoPlay=autoPlay
+		Level.AI_SPIDER_WEIGHT=random.randint(-2, 10) # 5
+		Level.AI_BOMB_WEIGHT=random.randint(-2, 10) # 8
 		
 	# Identify the Vertical 'slot' for this X value
 	def whatSlot(self, xVal):
@@ -206,12 +210,12 @@ class Level:
 					if sx.isVisible() and sx.getY()+Spider.FRAME_HEIGHT > baseY-Base.FRAME_HEIGHT:
 						# Locate the vertical slot
 						i=self.whatSlot(sx.getMidX())
-						dangerSlots[i]+=int(sx.getY())*5
+						dangerSlots[i]+=int(sx.getY())*Level.AI_SPIDER_WEIGHT
 						if sx.isFlying():
 							if sx.isMovingLeft() and i>=0:	# Slot to the left
-								dangerSlots[i-1]+=int(sx.getY())*5
+								dangerSlots[i-1]+=int(sx.getY())*Level.AI_SPIDER_WEIGHT
 							if sx.isMovingRight() and i<=AP_VERT_RES-2:	# Slot to the right
-								dangerSlots[i+1]+=int(sx.getY())*5
+								dangerSlots[i+1]+=int(sx.getY())*Level.AI_SPIDER_WEIGHT
 						#print "2: "+str(int(sx.getY()))+" * 5"
 
 				# Spider Bomb, the nearer the more dangerous
@@ -220,7 +224,7 @@ class Level:
 					if sbx.isFiring() and sbx.getY()>0: # and baseY>sbx.getWarheadY():
 						# Locate the vertical slot
 						i=self.whatSlot(sbx.getWarheadX())
-						dangerSlots[i]+=(WINDOW_HEIGHT-(abs(sbx.getY()-baseY)))*8
+						dangerSlots[i]+=(WINDOW_HEIGHT-(abs(sbx.getY()-baseY)))*Level.AI_BOMB_WEIGHT
 						bombSlots[i]+=1	# +1 if active Bomb in that section
 						#print "3: "+str(sbx.getY())+" * "+str(sbx.getDownwardsVelocity()*2)
 								
@@ -473,7 +477,7 @@ class Level:
 					if baseHitWait==0:
 						baseHitWait=FPS*1.5	#Start final wait
 
-			self.clock.tick(FPS)
+			# self.clock.tick(FPS)
 			pygame.display.update()	# Finally, redraw screen
 			
 			# Check whether all Spiders dead
